@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="da" style="font-size: 100%">
+<head>
+	<title>fcoo.dk - moment-simple-format - Demo</title>
+	<meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv='x-dns-prefetch-control' content='on'>
+
+	<meta name='copyright' content='FCOO'>
+	<meta name='owner' content='FCOO'>
+
+  <link  href="bower_components.css" rel="stylesheet">	
+</head>
+
+<body>
+	<script src="bower_components.js"></script>
+	<script src="../src/moment-simple-format.js"></script>
+    <script>
+        function writeCode( codeStr ){
+            document.write('<code>' + codeStr);
+            var f = new Function( 'return ' + codeStr )
+                result = f();
+            if (result)
+              document.write(' //=> "' + result + '"');
+            document.write('</code><br>');
+        }
+  
+        document.write('<h1>Timezones</h1>');    
+        writeCode("moment.sfAddTimezone([ {id:'Asia/Tokyo'}, {id:'America/Los_Angeles',	name:'America/LA'} ]);");
+        writeCode("moment.sfSetFormat({ timezone:'America/Los_Angeles' });");
+        writeCode("moment.simpleFormat.timezone.fullName;");
+        writeCode("moment.sfDateFormatList();");
+
+        document.write('<h1>tzMoment() and timeFormat()</h1>');    
+        writeCode("moment.sfSetFormat({ timezone:'America/Los_Angeles' });");
+        writeCode("moment().timeFormat()");
+        writeCode("moment().tzMoment().timeFormat()");
+        writeCode("moment().tzMoment('utc').timeFormat()");
+
+        document.write('<h1>dateFormat()</h1>');    
+        writeCode("moment().dateFormat()");
+        writeCode("moment.sfSetFormat({ date: 'YMD' });");
+        writeCode("moment().dateFormat()");
+        writeCode("moment.sfSetFormat({ date: 'MDY', dateFormat: { weekday:'Full', month:'Digital', year:'Short'} } );");
+        writeCode("moment().dateFormat()");
+        writeCode("moment.sfSetFormat({ date: 'YMD', dateFormat: { weekday:'Full', month:'Full', year:'None'} } );");
+        writeCode("moment().dateFormat()");
+        writeCode("moment().dateFormat({ date: 'DMY', dateFormat: { year:'F'} })");
+        writeCode("moment().dateFormat()");
+
+        document.write('<h1>relativeFormat()</h1>');    
+        writeCode("moment().add(-4,'h').relativeFormat();");
+        writeCode("moment().add(4,'d').add(1,'hour').relativeFormat({ relativeFormat:{now:false, days:true, minutes:false} });");
+	</script>
+</body>
+</html>
