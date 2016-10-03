@@ -117,6 +117,7 @@
             }
 
         namespace.timeFormat = parseInt(namespace.options.time) == 24 ? 'HH:mm' : 'hh:mma';
+        namespace.hourFormat = parseInt(namespace.options.time) == 24 ? 'HH   ' : 'hha';
         
         for (i=0; i<namespace.timezoneList.length; i++ )
             if (namespace.timezoneList[i].id == namespace.options.timezone){
@@ -223,6 +224,15 @@
             return this.format( namespace.timeFormat );
         });
     };
+
+    // moment.fn.hourFormat
+    moment.fn.hourFormat = function( options ) { 
+        return this._sfAnyFormat( options, function(){
+            return this.format( namespace.hourFormat );
+        });
+    };
+
+
 
     // moment.fn.dateTimeFormat
     moment.fn.dateTimeFormat = function( options ) { 

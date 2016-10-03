@@ -100,6 +100,9 @@ Return a formatted date string. The format is given by `options` or the options 
 ##### `moment().timeFormat( [options] )`
 Return a formatted time string. The format is given by `options` or the options set with `moment.sfSetFormat`
 
+##### `moment().hourFormat( [options] )`
+Return a formatted hour string. The format is given by `options` or the options set with `moment.sfSetFormat`
+
 ##### `moment().dateTimeFormat( [options] )`
 Return a formatted date and time string. The format is given by `options` or the options set with `moment.sfSetFormat`
 
