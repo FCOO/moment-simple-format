@@ -88,11 +88,8 @@
 
     
 
-    //Global const, var, and methods
-
-
-    // moment.sfSetFormat
-    moment.sfSetFormat = function( options ){ 
+    function options2code( options ){
+        //Convert the format of dastes in options to a tree-char code
         function convert( singleOption ){
             singleOption = singleOption.toUpperCase();
             return singleOption == 'FULL'    ? 'F' :
@@ -101,14 +98,21 @@
                    singleOption == 'NONE'    ? 'N' : 
                                    singleOption;
         } 
+        return convert( options.dateFormat.weekday ) + convert( options.dateFormat.month ) + convert( options.dateFormat.year );
+    }            
+
+    //Global const, var, and methods
+
+
+    // moment.sfSetFormat
+    moment.sfSetFormat = function( options ){ 
         $.extend( true, namespace.options, options );
 
         var i,
-            opt_dateFormat = namespace.options.dateFormat,
             opt_relativeFormat = namespace.options.relativeFormat,
             opt_text = namespace.options.text;
 
-        namespace.code = convert( opt_dateFormat.weekday ) + convert( opt_dateFormat.month ) + convert( opt_dateFormat.year );
+        namespace.code = options2code( namespace.options );
             
         for (i=0; i<dateFormatList.length; i++ )
             if (dateFormatList[i].code == namespace.code){
