@@ -103,35 +103,64 @@
 
     //Global const, var, and methods
 
+    // moment.sfGetOptions
+    moment.sfGetOptions = function( options ){ 
+        return $.extend( true, {}, namespace.options, options );
+    };
 
+    // moment.sfGetDateFormat
+    moment.sfGetDateFormat = function( options ){ 
+        options = $.extend( true, {}, namespace.options, options );
+        var i, code = options2code( options );
+        for (i=0; i<dateFormatList.length; i++ )
+            if (dateFormatList[i].code == code)
+              return dateFormatList[i][ options.date ]; 
+        return '';
+    };
+
+    // moment.sfGetTimeFormat
+    moment.sfGetTimeFormat = function( options ){ 
+        options = $.extend( true, {}, namespace.options, options );
+        return parseInt(options.time) == 24 ? 'HH:mm' : 'hh:mma';
+    };
+
+    // moment.sfGetHourFormat
+    moment.sfGetHourFormat = function( options ){ 
+        options = $.extend( true, {}, namespace.options, options );
+        return parseInt(options.time) == 24 ? 'HH' : 'hha';
+    };
+
+    // moment.sfGetTimezone
+    moment.sfGetTimezone = function( id ){     
+        id = id || namespace.options.timezone;
+        for (var i=0; i<namespace.timezoneList.length; i++ )
+            if (namespace.timezoneList[i].id == id)
+                return namespace.timezoneList[i];
+        return null;
+    };
+
+    // moment.sfGetRelativeFormat
+    moment.sfGetRelativeFormat = function( options ){ 
+        options = $.extend( true, {}, namespace.options, options );
+        var opt_relativeFormat = options.relativeFormat,
+            opt_text           = options.text;
+
+        return (opt_relativeFormat.days    ? 'd['  + opt_text.dayAbbr  + ']' : '') + 
+               (opt_relativeFormat.hours   ? 'h['  + opt_text.hourAbbr + ']' : '') +
+               (opt_relativeFormat.minutes ? 'mm[' + opt_text.minAbbr  + ']' : '');
+    };
+    
     // moment.sfSetFormat
     moment.sfSetFormat = function( options ){ 
         $.extend( true, namespace.options, options );
 
-        var i,
-            opt_relativeFormat = namespace.options.relativeFormat,
-            opt_text = namespace.options.text;
-
         namespace.code = options2code( namespace.options );
-            
-        for (i=0; i<dateFormatList.length; i++ )
-            if (dateFormatList[i].code == namespace.code){
-              namespace.dateFormat = dateFormatList[i][ namespace.options.date ]; 
-              break;
-            }
 
-        namespace.timeFormat = parseInt(namespace.options.time) == 24 ? 'HH:mm' : 'hh:mma';
-        namespace.hourFormat = parseInt(namespace.options.time) == 24 ? 'HH   ' : 'hha';
-        
-        for (i=0; i<namespace.timezoneList.length; i++ )
-            if (namespace.timezoneList[i].id == namespace.options.timezone){
-                namespace.timezone = namespace.timezoneList[i];
-                break;
-            }
-
-        namespace.relativeFormat = (opt_relativeFormat.days    ? 'd['  + opt_text.dayAbbr  + ']' : '') + 
-                                   (opt_relativeFormat.hours   ? 'h['  + opt_text.hourAbbr + ']' : '') +
-                                   (opt_relativeFormat.minutes ? 'mm[' + opt_text.minAbbr  + ']' : '');
+        namespace.dateFormat     = this.sfGetDateFormat( namespace.options );
+        namespace.timeFormat     = this.sfGetTimeFormat( namespace.options );
+        namespace.hourFormat     = this.sfGetHourFormat( namespace.options );
+        namespace.timezone       = this.sfGetTimezone( namespace.options.timezone );
+        namespace.relativeFormat = this.sfGetRelativeFormat( namespace.options );
     
     };
     
@@ -253,7 +282,6 @@
         });
     };
 
-
-
-
 }(moment, jQuery, this, document));
+
+

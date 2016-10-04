@@ -90,6 +90,20 @@ Return a array of available formats.
 
 `includeCodeFunc = function( code )`: optional - return true or false to include or exclude a format with code from the list
 
+##### `moment.sfGetOptions( [options] )
+Return the current options optional merged with `options`
+
+##### `moment.sfGetDateFormat( [options] )
+Return the current moment date format based on current options optional merged with `options`
+
+##### `moment.sfGetTimeFormat( [options] )
+Return the current moment time format based on current options optional merged with `options`
+
+##### `moment.sfGetHourFormat( [options] )
+Return the current moment hour format based on current options optional merged with `options`
+
+##### `moment.sfGetTimezone( [id] )
+Return the current timezone record moment or the timezone record withid = `id`
 
 ##### `moment().tzMoment( [timezone] )`
 Return the moment adjusted to `timezone` or the time-zone set with `moment.sfSetFormat`
