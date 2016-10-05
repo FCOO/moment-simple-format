@@ -153,7 +153,6 @@
     // moment.sfSetFormat
     moment.sfSetFormat = function( options ){ 
         $.extend( true, namespace.options, options );
-
         namespace.code = options2code( namespace.options );
 
         namespace.dateFormat     = this.sfGetDateFormat( namespace.options );
@@ -177,13 +176,19 @@
                 case 'utc'  : offset = null; break;
                 default     : offset = window.moment.tz.zone(options.id).parse(Date.UTC()); break;
             }
+            options.offset = offset;                      
             options.fullName = options.name;                      
             if (offset !== null){
-                options.fullName += ' (UTC' + (offset<0?'+':'-');
-                offset = Math.abs(offset);        
-                var h = Math.floor(offset / 60),
-                    m = offset % 60;
-                options.fullName += (h<10?'0':'') + h + ':' + (m<10?'0':'') + m + ')';
+                options.fullName += ' (UTC';
+                if (offset){
+                    options.fullName += (offset<0?'+':'-');
+                    offset = Math.abs(offset);        
+                    var h = Math.floor(offset / 60),
+                        m = offset % 60;
+                    options.fullName += (h<10?'0':'') + h + ':' + (m<10?'0':'') + m;
+                }
+                options.fullName += ')';
+
             }
             namespace.timezoneList.push(options);
         }
@@ -203,7 +208,7 @@
     };
 
     // moment.sfInit
-    moment.sfInit = function( options ){
+    moment.sfInit = function( options ){ 
         this.sfSetFormat( options );
 
         this.timezoneList = [];
