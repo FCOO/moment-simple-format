@@ -164,36 +164,33 @@
     };
     
     // moment.sfAddTimezone
-    moment.sfAddTimezone = function( options ){ 
+    moment.sfAddTimezone = function( options, offsetMoment ){ 
         var THIS = this;
         if ($.isArray( options ))
-            $.each( options, function( index, opt ){ THIS.sfAddTimezone( opt ); } );
+            $.each( options, function( index, opt ){ THIS.sfAddTimezone( opt, offsetMoment ); } );
         else { 
             options.name = options.name || options.id;
-            var offset = 0;
+            offsetMoment = offsetMoment || moment();
+            var offset = 0; 
             switch (options.id){
                 case 'local': offset = (new Date()).getTimezoneOffset();    break;
                 case 'utc'  : offset = null; break;
-                default     : offset = window.moment.tz.zone(options.id).parse(Date.UTC()); break;
+                default     : offset = window.moment.tz.zone(options.id).offset( offsetMoment ); break;
             }
             options.offset = offset;                      
-            options.fullName = options.name;                      
+            options.fullName = options.name;
             if (offset !== null){
-                options.fullName += ' (UTC';
-                if (offset){
-                    options.fullName += (offset<0?'+':'-');
-                    offset = Math.abs(offset);        
-                    var h = Math.floor(offset / 60),
-                        m = offset % 60;
-                    options.fullName += (h<10?'0':'') + h + ':' + (m<10?'0':'') + m;
-                }
-                options.fullName += ')';
+                options.fullName += ' (UTC' + (offset<=0?'+':'-');
+                offset = Math.abs(offset);        
+                var h = Math.floor(offset / 60),
+                    m = offset % 60;
+                options.fullName += (h<10?'0':'') + h + ':' + (m<10?'0':'') + m + ')';
 
             }
             namespace.timezoneList.push(options);
         }
     };
-    
+
     // moment.sfDateFormatList
     moment.sfDateFormatList = function( includeCodeFunc ){
         includeCodeFunc = includeCodeFunc || function(/* code */){ return true; };
