@@ -16,6 +16,7 @@
 	<script src="bower_components.js"></script>
 	<script src="../src/moment-simple-format.js"></script>
     <script>
+        moment.sfOnSetFormat( function( opt ){console.log( opt ); });
         function writeCode( codeStr ){
             document.write('<code>' + codeStr);
             var f = new Function( 'return ' + codeStr )
@@ -32,7 +33,7 @@
         writeCode("moment.sfDateFormatList();");
 
         document.write('<h1>tzMoment() and timeFormat()</h1>');    
-        writeCode("moment.sfSetFormat({ timezone:'America/Los_Angeles' });");
+        writeCode("moment.sfSetFormat({ timezone:'Asia/Tokyo' });");
         writeCode("moment().timeFormat()");
         writeCode("moment().tzMoment().timeFormat()");
         writeCode("moment().tzMoment('utc').timeFormat()");

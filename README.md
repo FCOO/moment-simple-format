@@ -77,6 +77,9 @@ Only need to be call if `options.text` is changed
 ##### `moment.sfSetFormat( options )`
 Set the `options`
 
+##### `moment.sfOnSetFormat( func )`
+Add `func = function( options )` to be called after `moment.sfSetFormat( options )` is called
+
 ##### `moment.sfAddTimezone( options )`
 Adds a time-zone to the list of available time-zones
 
@@ -90,19 +93,19 @@ Return a array of available formats.
 
 `includeCodeFunc = function( code )`: optional - return true or false to include or exclude a format with code from the list
 
-##### `moment.sfGetOptions( [options] )
+##### `moment.sfGetOptions( [options] )`
 Return the current options optional merged with `options`
 
-##### `moment.sfGetDateFormat( [options] )
+##### `moment.sfGetDateFormat( [options] )`
 Return the current moment date format based on current options optional merged with `options`
 
-##### `moment.sfGetTimeFormat( [options] )
+##### `moment.sfGetTimeFormat( [options] )`
 Return the current moment time format based on current options optional merged with `options`
 
-##### `moment.sfGetHourFormat( [options] )
+##### `moment.sfGetHourFormat( [options] )`
 Return the current moment hour format based on current options optional merged with `options`
 
-##### `moment.sfGetTimezone( [id] )
+##### `moment.sfGetTimezone( [id] )`
 Return the current timezone record moment or the timezone record withid = `id`
 
 ##### `moment().tzMoment( [timezone] )`
