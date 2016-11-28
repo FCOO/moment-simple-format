@@ -24,7 +24,7 @@ Simplifies the format of moment by setting
 3. The sequence of the different parts:
     - `DMY`: Day-Month-Year
     - `MDY`: Month-Day-Year
-    - `YMD`: Teay-Month-Day
+    - `YMD`: Year-Month-Day
 4. A date-string is formed by setting one of tree formats for each of the following tree parts: 
     - `weekday`: Format = `'Full'`, `'Short'`, or `'None'` (alt. `'F'`/`'S'`/`'N'`)
     - `month  `: Format = `'Full'`, `'Short'`, or `'Digital'` (alt. `'F'`/`'S'`/`'D'`) 
