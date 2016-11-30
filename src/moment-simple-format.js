@@ -194,7 +194,7 @@
     moment.sfOnSetFormat = function( func ){
         namespace.onSetFormatList = namespace.onSetFormatList || [];
         namespace.onSetFormatList.push( func );
-    }
+    };
 
     /*******************************************************************
     moment.sfAddTimezone
@@ -205,32 +205,42 @@
     }
     All the timezones are in `moment.simpleFormat.timezoneList //[]`
     ********************************************************************/
+        /*******************************************************************
+        timezoneUpdate( name, offsetMoment )
+        Update fullname with optional new value of name and/or offsetMoment
+        ********************************************************************/
+        function timezoneUpdate( name, offsetMoment ){
+            this.name = name || this.name || this.id;
+            offsetMoment = offsetMoment || moment();
+            var offset = 0; 
+            switch (this.id){
+                case 'local': offset = (new Date()).getTimezoneOffset();    break;
+                case 'utc'  : offset = null; break;
+                default     : offset = window.moment.tz.zone(this.id).offset( offsetMoment ); break;
+            }
+            this.offset = offset;                      
+            this.fullName = this.name;
+            if (offset !== null){
+                this.fullName += ' (UTC' + (offset<=0?'+':'-');
+                offset = Math.abs(offset);        
+                var h = Math.floor(offset / 60),
+                    m = offset % 60;
+                this.fullName += (h<10?'0':'') + h + ':' + (m<10?'0':'') + m + ')';
+            }
+        }
+    
     moment.sfAddTimezone = function( options, offsetMoment ){ 
         var THIS = this;
         if ($.isArray( options ))
             $.each( options, function( index, opt ){ THIS.sfAddTimezone( opt, offsetMoment ); } );
         else { 
-            options.name = options.name || options.id;
-            offsetMoment = offsetMoment || moment();
-            var offset = 0; 
-            switch (options.id){
-                case 'local': offset = (new Date()).getTimezoneOffset();    break;
-                case 'utc'  : offset = null; break;
-                default     : offset = window.moment.tz.zone(options.id).offset( offsetMoment ); break;
-            }
-            options.offset = offset;                      
-            options.fullName = options.name;
-            if (offset !== null){
-                options.fullName += ' (UTC' + (offset<=0?'+':'-');
-                offset = Math.abs(offset);        
-                var h = Math.floor(offset / 60),
-                    m = offset % 60;
-                options.fullName += (h<10?'0':'') + h + ':' + (m<10?'0':'') + m + ')';
-
-            }
+            options.update = timezoneUpdate;
+            options.update( null, offsetMoment );
             namespace.timezoneList.push(options);
         }
     };
+
+
 
     /*******************************************************************
     moment.sfDateFormatList

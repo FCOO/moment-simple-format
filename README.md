@@ -68,62 +68,68 @@ There is a special case: `dateFormat: {weekday:'none', month:'none', year:'none'
 `dateFormat: {weekday:'N', month:'S', year:'F'}` => format = `'DD. MMM YYYY'`  (eg. `'24. Dec 2015'`)
 `dateFormat: {weekday:'N', month:'D', year:'S'}` => format = `'DD/MM/YY'`  (eg. `'24/12/15'`)
 
-### Methods
+## Methods
 
-##### `moment.sfInit( options )`
+#### `moment.sfInit( options )`
 Initialize the options and the list of time-zones
 Only need to be call if `options.text` is changed
 
-##### `moment.sfSetFormat( options )`
+#### `moment.sfSetFormat( options )`
 Set the `options`
 
-##### `moment.sfOnSetFormat( func )`
+#### `moment.sfOnSetFormat( func )`
 Add `func = function( options )` to be called after `moment.sfSetFormat( options )` is called
 
-##### `moment.sfAddTimezone( options )`
+#### `moment.sfAddTimezone( options[, offsetMoment]  )`
 Adds a time-zone to the list of available time-zones
 
     options = {id: [String], //id of the timezone from moment.tz
                name: [String] //optional name for the timezone
               }
+    offsetMoment = moment to use when calculating offset from UTC (default = "today")
+
 All the timezones are in `moment.simpleFormat.timezoneList //[]`
 
-##### `moment.sfDateFormatList( includeCodeFunc )`
+The name and offsetMoment can be changed by using the method `update( name, offsetMoment )`
+
+    moment.simpleFormat.timezoneList[0].update(...)
+
+#### `moment.sfDateFormatList( includeCodeFunc )`
 Return a array of available formats. 
 
 `includeCodeFunc = function( code )`: optional - return true or false to include or exclude a format with code from the list
 
-##### `moment.sfGetOptions( [options] )`
+#### `moment.sfGetOptions( [options] )`
 Return the current options optional merged with `options`
 
-##### `moment.sfGetDateFormat( [options] )`
+#### `moment.sfGetDateFormat( [options] )`
 Return the current moment date format based on current options optional merged with `options`
 
-##### `moment.sfGetTimeFormat( [options] )`
+#### `moment.sfGetTimeFormat( [options] )`
 Return the current moment time format based on current options optional merged with `options`
 
-##### `moment.sfGetHourFormat( [options] )`
+#### `moment.sfGetHourFormat( [options] )`
 Return the current moment hour format based on current options optional merged with `options`
 
-##### `moment.sfGetTimezone( [id] )`
+#### `moment.sfGetTimezone( [id] )`
 Return the current timezone record moment or the timezone record withid = `id`
 
-##### `moment().tzMoment( [timezone] )`
+#### `moment().tzMoment( [timezone] )`
 Return the moment adjusted to `timezone` or the time-zone set with `moment.sfSetFormat`
 
-##### `moment().dateFormat( [options] )`
+#### `moment().dateFormat( [options] )`
 Return a formatted date string. The format is given by `options` or the options set with `moment.sfSetFormat`
 
-##### `moment().timeFormat( [options] )`
+#### `moment().timeFormat( [options] )`
 Return a formatted time string. The format is given by `options` or the options set with `moment.sfSetFormat`
 
-##### `moment().hourFormat( [options] )`
+#### `moment().hourFormat( [options] )`
 Return a formatted hour string. The format is given by `options` or the options set with `moment.sfSetFormat`
 
-##### `moment().dateTimeFormat( [options] )`
+#### `moment().dateTimeFormat( [options] )`
 Return a formatted date and time string. The format is given by `options` or the options set with `moment.sfSetFormat`
 
-##### `moment().relativeFormat( [options] )`
+#### `moment().relativeFormat( [options] )`
 Return a relative time string. The format is given by `options` or the options set with `moment.sfSetFormat`
 
 
