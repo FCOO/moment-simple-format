@@ -1,15 +1,15 @@
 /****************************************************************************
-	moment-simple-format.js, 
+    moment-simple-format.js, 
 
-	(c) 2016, FCOO
+    (c) 2016, FCOO
 
-	https://github.com/FCOO/moment-format
-	https://github.com/FCOO
+    https://github.com/FCOO/moment-format
+    https://github.com/FCOO
 
 ****************************************************************************/
 
 (function (moment, $ /*, window, document, undefined*/) {
-	"use strict";
+    "use strict";
  
     /***********************************************************
     dateFormatList = array[0..dateFormats-1] of {DMY: [String], MDY: [String], YMD: [String]}
@@ -267,11 +267,17 @@
     moment.sfInit = function( options ){ 
         this.sfSetFormat( options );
 
-        this.timezoneList = [];
-        this.sfAddTimezone([
-            { id:'local', name: namespace.options.text.local },
-            { id:'utc',   name: namespace.options.text.utc   }
-        ]);
+        if (namespace.timezoneList.length){
+            //Update the name of the default timezones
+            namespace.timezoneList[0].update( namespace.options.text.local );
+            namespace.timezoneList[1].update( namespace.options.text.utc );
+        }
+        else
+            //Add default timezones
+            this.sfAddTimezone([
+                { id:'local', name: namespace.options.text.local },
+                { id:'utc',   name: namespace.options.text.utc   }
+            ]);
     };
 
     moment.sfInit();

@@ -267,11 +267,17 @@
     moment.sfInit = function( options ){ 
         this.sfSetFormat( options );
 
-        this.timezoneList = [];
-        this.sfAddTimezone([
-            { id:'local', name: namespace.options.text.local },
-            { id:'utc',   name: namespace.options.text.utc   }
-        ]);
+        if (namespace.timezoneList.length){
+            //Update the name of the default timezones
+            namespace.timezoneList[0].update( namespace.options.text.local );
+            namespace.timezoneList[1].update( namespace.options.text.utc );
+        }
+        else
+            //Add default timezones
+            this.sfAddTimezone([
+                { id:'local', name: namespace.options.text.local },
+                { id:'utc',   name: namespace.options.text.utc   }
+            ]);
     };
 
     moment.sfInit();
