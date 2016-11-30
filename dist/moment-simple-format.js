@@ -211,12 +211,12 @@
         ********************************************************************/
         function timezoneUpdate( name, offsetMoment ){
             this.name = name || this.name || this.id;
-            offsetMoment = offsetMoment || moment();
+            this.offsetMoment = offsetMoment || this.offsetMoment || moment();
             var offset = 0; 
             switch (this.id){
                 case 'local': offset = (new Date()).getTimezoneOffset();    break;
                 case 'utc'  : offset = null; break;
-                default     : offset = window.moment.tz.zone(this.id).offset( offsetMoment ); break;
+                default     : offset = window.moment.tz.zone(this.id).offset( this.offsetMoment ); break;
             }
             this.offset = offset;                      
             this.fullName = this.name;
