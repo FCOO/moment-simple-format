@@ -1,15 +1,15 @@
 /****************************************************************************
-	moment-simple-format.js, 
+    moment-simple-format.js, 
 
-	(c) 2016, FCOO
+    (c) 2016, FCOO
 
-	https://github.com/FCOO/moment-format
-	https://github.com/FCOO
+    https://github.com/FCOO/moment-format
+    https://github.com/FCOO
 
 ****************************************************************************/
 
 (function (moment, $ /*, window, document, undefined*/) {
-	"use strict";
+    "use strict";
  
     /***********************************************************
     dateFormatList = array[0..dateFormats-1] of {DMY: [String], MDY: [String], YMD: [String]}
