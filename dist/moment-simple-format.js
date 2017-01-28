@@ -359,10 +359,17 @@
     ********************************************************************/
     moment.fn.relativeFormat = function( options ) { 
         return this._sfAnyFormat( options, function(){
-            var minDiff = this.diff( moment() , '', true),
+            var mom = moment( this ).round(1, 'minutes'),
+                now = moment().round(1, 'minutes'),
+                minDiff = mom.diff( now, 'minutes'), //this.diff( moment() , '', true),
                 sign = minDiff < 0 ? '-' : '+';
+
             minDiff = Math.abs( minDiff ) ;
-            return (namespace.options.relativeFormat.now ? namespace.options.text.now : '') + sign + moment.duration(minDiff).format( namespace.relativeFormat );
+            if (namespace.options.relativeFormat.now && (minDiff == 0))
+                //Special case for 'now+0h' => 'now'
+                return namespace.options.text.now;
+
+            return (namespace.options.relativeFormat.now ? namespace.options.text.now : '') + sign + moment.duration(minDiff, 'minutes').format( namespace.relativeFormat );
         });
     };
 

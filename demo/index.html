@@ -9,7 +9,6 @@
 	<meta name='copyright' content='FCOO'>
 	<meta name='owner' content='FCOO'>
 
-  <link  href="bower_components.css" rel="stylesheet">	
 </head>
 
 <body>
@@ -51,6 +50,10 @@
         writeCode("moment().dateFormat()");
 
         document.write('<h1>relativeFormat()</h1>');    
+
+        writeCode("moment().add(-1, 's').relativeFormat();");
+        writeCode("moment().relativeFormat();");
+        writeCode("moment().relativeFormat({ relativeFormat:{now:false} });");
         writeCode("moment().add(-4,'h').relativeFormat();");
         writeCode("moment().add(4,'d').add(1,'hour').relativeFormat({ relativeFormat:{now:false, days:true, minutes:false} });");
 	</script>
