@@ -1,5 +1,5 @@
 /****************************************************************************
-    moment-simple-format.js, 
+    moment-simple-format.js,
 
     (c) 2016, FCOO
 
@@ -10,13 +10,13 @@
 
 (function (moment, $ /*, window, document, undefined*/) {
     "use strict";
- 
+
     /***********************************************************
     dateFormatList = array[0..dateFormats-1] of {DMY: [String], MDY: [String], YMD: [String]}
     List of different format-strings in tree different sequence
     ***********************************************************/
     var dateFormatList = [],
-        w, m, y, 
+        w, m, y,
         wFormat, mFormat, backslash, yFormat, dateFormat;
     for (w in {F:'', S:'', N:''})
         for (m in {F:'', S:'', D:''})
@@ -25,8 +25,8 @@
                 wFormat = w == 'F' ? 'dddd, ' : w == 'S' ? 'ddd, ' : '';
                 mFormat = m == 'F' ? 'MMMM'   : m == 'S' ? 'MMM'   : 'MM';
                 yFormat = y == 'F' ? 'YYYY'   : y == 'S' ? 'YY'    : '';
-                backslash = mFormat == 'MM'; 
-                
+                backslash = mFormat == 'MM';
+
                 dateFormat.DMY = wFormat + 'DD' + (backslash ? '/' : '. ') + mFormat + (yFormat ? (backslash ? '/' : ' ') + yFormat : '');
                 dateFormat.MDY = wFormat + mFormat + (backslash ? '/' : ' ') + 'DD' + (yFormat ? (backslash ? '/' : ', ') + yFormat : '');
                 dateFormat.YMD = wFormat + (yFormat ? yFormat + (backslash ? '/' : ' ') : '') + mFormat + (backslash ? '/' : ' ') + 'DD';
@@ -35,8 +35,8 @@
             }
     //Special case: NNN
     dateFormatList.push( { code:'NNN', DMY: 'DD', MDY: 'DD', YMD: 'DD'} );
-    
-    /* 'Handmade' version to see the principle 
+
+    /* 'Handmade' version to see the principle
         { code:'FFF', DMY: 'dddd, DD. MMMM YYYY', MDY: 'dddd, MMMM DD, YYYY', YMD: 'dddd, YYYY MMMM DD' },    //Monday, 24. December 2015 | Monday, December 24, 2015 | Monday, 2015 December 24
         { code:'SFF', DMY: 'ddd, DD. MMMM YYYY' , MDY: 'ddd, MMMM DD, YYYY' , YMD: 'ddd, YYYY MMMM DD'  },    //Mon, 24. December 2015    | Monday, December 24, 2015 | Mon, 2015 December 24
         { code:'SSF', DMY: 'ddd, DD. MMM YYYY'  , MDY: 'ddd, MMM DD, YYYY'  , YMD: 'ddd, YYYY MMM DD'   },    //Mon, 24. Dec 2015         | Mon Dec 24, 2015          | Mon 2015 Dec 24
@@ -55,13 +55,13 @@
             timezone      : 'local',
             date          : 'DMY',
             dateFormat    : {
-                weekday: 'None', 
-                month  : 'Short', 
+                weekday: 'None',
+                month  : 'Short',
                 year   : 'Full'
             },
             relativeFormat: {
-                now    : true, 
-                days   : false, 
+                now    : true,
+                days   : false,
                 hours  : true,
                 minutes: true
             },
@@ -86,20 +86,20 @@
             relativeFormat: ''
         };
 
-    
+
 
     function options2code( options ){
         //Convert the format of dastes in options to a tree-char code
         function convert( singleOption ){
             singleOption = singleOption.toUpperCase();
             return singleOption == 'FULL'    ? 'F' :
-                   singleOption == 'SHORT'   ? 'S' : 
-                   singleOption == 'DIGITAL' ? 'D' : 
-                   singleOption == 'NONE'    ? 'N' : 
+                   singleOption == 'SHORT'   ? 'S' :
+                   singleOption == 'DIGITAL' ? 'D' :
+                   singleOption == 'NONE'    ? 'N' :
                                    singleOption;
-        } 
+        }
         return convert( options.dateFormat.weekday ) + convert( options.dateFormat.month ) + convert( options.dateFormat.year );
-    }            
+    }
 
     //Global const, var, and methods
 
@@ -107,7 +107,7 @@
     moment.sfGetOptions
     Return the current options optional merged with `options`
     ********************************************************************/
-    moment.sfGetOptions = function( options ){ 
+    moment.sfGetOptions = function( options ){
         return $.extend( true, {}, namespace.options, options );
     };
 
@@ -115,12 +115,12 @@
     moment.sfGetDateFormat
     Return the current moment date format based on current options optional merged with `options`
     ********************************************************************/
-    moment.sfGetDateFormat = function( options ){ 
+    moment.sfGetDateFormat = function( options ){
         options = $.extend( true, {}, namespace.options, options );
         var i, code = options2code( options );
         for (i=0; i<dateFormatList.length; i++ )
             if (dateFormatList[i].code == code)
-              return dateFormatList[i][ options.date ]; 
+              return dateFormatList[i][ options.date ];
         return '';
     };
 
@@ -128,7 +128,7 @@
     moment.sfGetTimeFormat
     Return the current moment time format based on current options optional merged with `options`
     ********************************************************************/
-    moment.sfGetTimeFormat = function( options ){ 
+    moment.sfGetTimeFormat = function( options ){
         options = $.extend( true, {}, namespace.options, options );
         return parseInt(options.time) == 24 ? 'HH:mm' : 'hh:mma';
     };
@@ -137,7 +137,7 @@
     moment.sfGetHourFormat
     Return the current moment hour format based on current options optional merged with `options`
     ********************************************************************/
-    moment.sfGetHourFormat = function( options ){ 
+    moment.sfGetHourFormat = function( options ){
         options = $.extend( true, {}, namespace.options, options );
         return parseInt(options.time) == 24 ? 'HH' : 'hha';
     };
@@ -146,7 +146,7 @@
     moment.sfGetTimezone
     Return the current timezone record moment or the timezone record withid = `id`
     ********************************************************************/
-    moment.sfGetTimezone = function( id ){     
+    moment.sfGetTimezone = function( id ){
         id = id || namespace.options.timezone;
         for (var i=0; i<namespace.timezoneList.length; i++ )
             if (namespace.timezoneList[i].id == id)
@@ -157,21 +157,21 @@
     /*******************************************************************
     moment.sfGetRelativeFormat
     ********************************************************************/
-    moment.sfGetRelativeFormat = function( options ){ 
+    moment.sfGetRelativeFormat = function( options ){
         options = $.extend( true, {}, namespace.options, options );
         var opt_relativeFormat = options.relativeFormat,
             opt_text           = options.text;
 
-        return (opt_relativeFormat.days    ? 'd['  + opt_text.dayAbbr  + ']' : '') + 
+        return (opt_relativeFormat.days    ? 'd['  + opt_text.dayAbbr  + ']' : '') +
                (opt_relativeFormat.hours   ? 'h['  + opt_text.hourAbbr + ']' : '') +
                (opt_relativeFormat.minutes ? 'mm[' + opt_text.minAbbr  + ']' : '');
     };
-    
+
     /*******************************************************************
     moment.sfSetFormat
-    Set the `options`   
+    Set the `options`
     ********************************************************************/
-    moment.sfSetFormat = function( options ){ 
+    moment.sfSetFormat = function( options ){
         $.extend( true, namespace.options, options );
         namespace.code = options2code( namespace.options );
 
@@ -184,9 +184,9 @@
         if (namespace.onSetFormatList)
           for (var i=0; i<namespace.onSetFormatList.length; i++ )
             namespace.onSetFormatList[i]( namespace.options );
-          
+
     };
-    
+
     /*******************************************************************
     moment.sfOnSetFormat
     Add `func = function( options )` to be called after `moment.sfSetFormat( options )` is called
@@ -206,36 +206,36 @@
     All the timezones are in `moment.simpleFormat.timezoneList //[]`
     ********************************************************************/
         /*******************************************************************
-        timezoneUpdate( name, offsetMoment )
-        Update fullname with optional new value of name and/or offsetMoment
+        timezoneUpdate( name, utcOffsetMoment )
+        Update fullname with optional new value of name and/or utcOffsetMoment
         ********************************************************************/
-        function timezoneUpdate( name, offsetMoment ){
+        function timezoneUpdate( name, utcOffsetMoment ){
             this.name = name || this.name || this.id;
-            this.offsetMoment = offsetMoment || this.offsetMoment || moment();
-            var offset = 0; 
+            this.utcOffsetMoment = utcOffsetMoment || this.utcOffsetMoment || moment();
+            var utcOffset = 0;
             switch (this.id){
-                case 'local': offset = (new Date()).getTimezoneOffset();    break;
-                case 'utc'  : offset = null; break;
-                default     : offset = window.moment.tz.zone(this.id).offset( this.offsetMoment ); break;
+                case 'local': utcOffset = (new Date()).getTimezoneOffset();    break;
+                case 'utc'  : utcOffset = null; break;
+                default     : utcOffset = window.moment.tz.zone(this.id).utcOffset( this.utcOffsetMoment ); break;
             }
-            this.offset = offset;                      
+            this.utcOffset = utcOffset;
             this.fullName = this.name;
-            if (offset !== null){
-                this.fullName += ' (UTC' + (offset<=0?'+':'-');
-                offset = Math.abs(offset);        
-                var h = Math.floor(offset / 60),
-                    m = offset % 60;
+            if (utcOffset !== null){
+                this.fullName += ' (UTC' + (utcOffset<=0?'+':'-');
+                utcOffset = Math.abs(utcOffset);
+                var h = Math.floor(utcOffset / 60),
+                    m = utcOffset % 60;
                 this.fullName += (h<10?'0':'') + h + ':' + (m<10?'0':'') + m + ')';
             }
         }
-    
-    moment.sfAddTimezone = function( options, offsetMoment ){ 
+
+    moment.sfAddTimezone = function( options, utcOffsetMoment ){
         var THIS = this;
         if ($.isArray( options ))
-            $.each( options, function( index, opt ){ THIS.sfAddTimezone( opt, offsetMoment ); } );
-        else { 
+            $.each( options, function( index, opt ){ THIS.sfAddTimezone( opt, utcOffsetMoment ); } );
+        else {
             options.update = timezoneUpdate;
-            options.update( null, offsetMoment );
+            options.update( null, utcOffsetMoment );
             namespace.timezoneList.push(options);
         }
     };
@@ -244,7 +244,7 @@
 
     /*******************************************************************
     moment.sfDateFormatList
-    Return a array of available formats. 
+    Return a array of available formats.
     includeCodeFunc = function( code ): optional - return true or false to include or exclude a format with code from the list
     ********************************************************************/
     moment.sfDateFormatList = function( includeCodeFunc ){
@@ -253,7 +253,7 @@
         for (i=0; i<dateFormatList.length; i++ ){
             dateFormat = dateFormatList[i];
             if (includeCodeFunc( dateFormat.code ) ){
-                result.push( dateFormat[ namespace.options.date ] );              
+                result.push( dateFormat[ namespace.options.date ] );
             }
         }
         return result;
@@ -264,7 +264,7 @@
     Initialize the options and the list of time-zones
     Only need to be call if `options.text` is changed
     ********************************************************************/
-    moment.sfInit = function( options ){ 
+    moment.sfInit = function( options ){
         this.sfSetFormat( options );
 
         if (namespace.timezoneList.length){
@@ -281,7 +281,7 @@
     };
 
     moment.sfInit();
-    
+
 
     //Moment.prototype.method == moment.fn.method
 
@@ -289,7 +289,7 @@
     moment.fn.tzMoment
     Return the moment adjusted to `timezone` or the time-zone set with `moment.sfSetFormat`
     ********************************************************************/
-    moment.fn.tzMoment = function( timezone ) { 
+    moment.fn.tzMoment = function( timezone ) {
         timezone = timezone || namespace.options.timezone;
         if (timezone == 'local') return this.local();
         if (timezone == 'utc') return this.utc();
@@ -318,7 +318,7 @@
     moment.fn.dateFormat
     Return a formatted date string. The format is given by `options` or the options set with `moment.sfSetFormat`
     ********************************************************************/
-    moment.fn.dateFormat = function( options ) { 
+    moment.fn.dateFormat = function( options ) {
         return this._sfAnyFormat( options, function(){
             return this.format( namespace.dateFormat );
         });
@@ -328,7 +328,7 @@
     moment.fn.timeFormat
     Return a formatted time string. The format is given by `options` or the options set with `moment.sfSetFormat`
     ********************************************************************/
-    moment.fn.timeFormat = function( options ) { 
+    moment.fn.timeFormat = function( options ) {
         return this._sfAnyFormat( options, function(){
             return this.format( namespace.timeFormat );
         });
@@ -338,7 +338,7 @@
     moment.fn.hourFormat
     Return a formatted hour string. The format is given by `options` or the options set with `moment.sfSetFormat`
     ********************************************************************/
-    moment.fn.hourFormat = function( options ) { 
+    moment.fn.hourFormat = function( options ) {
         return this._sfAnyFormat( options, function(){
             return this.format( namespace.hourFormat );
         });
@@ -349,7 +349,7 @@
     moment.fn.dateTimeFormat
     Return a formatted date and time string. The format is given by `options` or the options set with `moment.sfSetFormat`
     ********************************************************************/
-    moment.fn.dateTimeFormat = function( options ) { 
+    moment.fn.dateTimeFormat = function( options ) {
         return this.dateFormat( options ) + ' ' + this.timeFormat( options );
     };
 
@@ -357,7 +357,7 @@
     moment.fn.relativeFormat
     Return a relative time string. The format is given by `options` or the options set with `moment.sfSetFormat`
     ********************************************************************/
-    moment.fn.relativeFormat = function( options ) { 
+    moment.fn.relativeFormat = function( options ) {
         return this._sfAnyFormat( options, function(){
             var mom = moment( this ).round(1, 'minutes'),
                 now = moment().round(1, 'minutes'),
