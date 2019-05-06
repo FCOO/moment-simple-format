@@ -171,7 +171,7 @@
     moment.sfSetFormat
     Set the `options`
     ********************************************************************/
-    moment.sfSetFormat = function( options ){
+    moment.sfSetFormat = function( options, dontCallOnSetFormatFunc ){
         $.extend( true, namespace.options, options );
         namespace.code = options2code( namespace.options );
 
@@ -181,10 +181,9 @@
         namespace.timezone       = this.sfGetTimezone( namespace.options.timezone );
         namespace.relativeFormat = this.sfGetRelativeFormat( namespace.options );
 
-        if (namespace.onSetFormatList)
-          for (var i=0; i<namespace.onSetFormatList.length; i++ )
-            namespace.onSetFormatList[i]( namespace.options );
-
+        if (namespace.onSetFormatList && !dontCallOnSetFormatFunc)
+            for (var i=0; i<namespace.onSetFormatList.length; i++ )
+                namespace.onSetFormatList[i]( namespace.options );
     };
 
     /*******************************************************************
@@ -301,13 +300,13 @@
     moment.fn._sfAnyFormat = function( options, func ){
         if (options){
             var saveOptions = $.extend(true, {}, namespace.options);
-            moment.sfSetFormat( options );
+            moment.sfSetFormat( options, true );
         }
 
         var result = $.proxy( func, this )();
 
         if (options)
-            moment.sfSetFormat( saveOptions );
+            moment.sfSetFormat( saveOptions, true );
 
         return result;
     };
