@@ -25,20 +25,21 @@
             document.write('</code><br>');
         }
 
-        document.write('<h1>Timezones</h1>');    
+        document.write('<h1>Timezones</h1>');
         writeCode("moment.sfAddTimezone([ {id:'Asia/Tokyo'}, {id:'America/Los_Angeles',	name:'America/LA'} ]);");
 
         writeCode("moment.sfSetFormat({ timezone:'America/Los_Angeles' });");
         writeCode("moment.simpleFormat.timezone.fullName;");
+        writeCode("moment.simpleFormat.timezone.utcOffsetText;");
         writeCode("moment.sfDateFormatList();");
 
-        document.write('<h1>tzMoment() and timeFormat()</h1>');    
+        document.write('<h1>tzMoment() and timeFormat()</h1>');
         writeCode("moment.sfSetFormat({ timezone:'Asia/Tokyo' });");
         writeCode("moment().timeFormat()");
         writeCode("moment().tzMoment().timeFormat()");
         writeCode("moment().tzMoment('utc').timeFormat()");
 
-        document.write('<h1>dateFormat()</h1>');    
+        document.write('<h1>dateFormat()</h1>');
         writeCode("moment().dateFormat()");
         writeCode("moment.sfSetFormat({ date: 'YMD' });");
         writeCode("moment().dateFormat()");
@@ -49,7 +50,7 @@
         writeCode("moment().dateFormat({ date: 'DMY', dateFormat: { year:'F'} })");
         writeCode("moment().dateFormat()");
 
-        document.write('<h1>relativeFormat()</h1>');    
+        document.write('<h1>relativeFormat()</h1>');
 
         writeCode("moment().add(-1, 's').relativeFormat();");
         writeCode("moment().relativeFormat();");

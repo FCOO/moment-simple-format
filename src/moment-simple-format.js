@@ -219,12 +219,14 @@
             }
             this.utcOffset = utcOffset;
             this.fullName = this.name;
+            this.utcOffsetText = '';
             if (utcOffset !== null){
-                this.fullName += ' (UTC' + (utcOffset<=0?'+':'-');
+                this.utcOffsetText = '(UTC' + (utcOffset<=0?'+':'-');
                 utcOffset = Math.abs(utcOffset);
                 var h = Math.floor(utcOffset / 60),
                     m = utcOffset % 60;
-                this.fullName += (h<10?'0':'') + h + ':' + (m<10?'0':'') + m + ')';
+                this.utcOffsetText += (h<10?'0':'') + h + ':' + (m<10?'0':'') + m + ')';
+                this.fullName += ' ' + this.utcOffsetText;
             }
         }
 
