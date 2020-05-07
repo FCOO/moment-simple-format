@@ -360,6 +360,32 @@
     ********************************************************************/
     moment.fn.relativeFormat = function( options ) {
         return this._sfAnyFormat( options, function(){
+            var mom = moment( this ).startOf('minute'),
+                now = moment().startOf('minute'),
+                minDiff = mom.diff( now, 'minutes'),
+                sign = minDiff < 0 ? '-' : '+';
+
+            minDiff = Math.abs(minDiff);
+
+            var hourDiff = Math.floor(minDiff/60),
+                dayDiff = Math.floor(hourDiff/24);
+
+            if (namespace.options.relativeFormat.now){
+                //Check for special case to avoid 'now+0m' or 'now+0h' or "now+0d" or 'now+0d0h' or 'now+0d0h0m'
+                var returnJustNow = true;
+                $.each({minutes: minDiff, hours: hourDiff, days: dayDiff}, function(id, diff){
+                    //If the format contains the part id (min, hour or day) and the value isn't zero => do not display only 'now'
+                    if (namespace.options.relativeFormat[id] && (diff != 0))
+                        returnJustNow = false;
+                });
+                if (returnJustNow)
+                    return namespace.options.text.now;
+            }
+            return (namespace.options.relativeFormat.now ? namespace.options.text.now : '') + sign + moment.duration(minDiff, 'minutes').format( namespace.relativeFormat );
+        });
+
+/*OLD VERSION
+        return this._sfAnyFormat( options, function(){
             var mom = moment( this ).round(1, 'minutes'),
                 now = moment().round(1, 'minutes'),
                 minDiff = mom.diff( now, 'minutes'), //this.diff( moment() , '', true),
@@ -372,6 +398,7 @@
 
             return (namespace.options.relativeFormat.now ? namespace.options.text.now : '') + sign + moment.duration(minDiff, 'minutes').format( namespace.relativeFormat );
         });
+*/
     };
 
 }(moment, jQuery, this, document));
